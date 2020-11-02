@@ -26,6 +26,24 @@ namespace InventoryImportDLL
         FindInventoryImportByWarehouseIDDataSet aFindInventoryImportByWarehouseIDDataSet;
         FindInventoryImportByWarehouseIDDataSetTableAdapters.FindInventoryImportByWarehouseIDTableAdapter aFindInventoryImportByWarehouseIDTableAdapter;
 
+        RemoveInventoryImportEntryTableAdapters.QueriesTableAdapter aRemoveInventoryImportTableAdapter;
+
+        public bool RemoveInventoryImport(int intWarehouseID, DateTime datStartDate, DateTime datEndDate)
+        {
+            bool blnFatalError = false;
+
+            try
+            {
+                aRemoveInventoryImportTableAdapter = new RemoveInventoryImportEntryTableAdapters.QueriesTableAdapter();
+                aRemoveInventoryImportTableAdapter.RemoveInventoryImport(intWarehouseID, datStartDate, datEndDate);
+            }
+            catch (Exception Ex)
+            {
+                TheEventLogclass.InsertEventLogEntry(DateTime.Now, "Inventory Import Class // Remove Inventory Import " + Ex.Message);
+            }
+
+            return blnFatalError;
+        }
         public FindInventoryImportByWarehouseIDDataSet FindInventoryImportByWarehouseID(int intWarehouseID, DateTime datStartDate, DateTime datEndDate)
         {
             try
